@@ -9,7 +9,8 @@
 using namespace std;
 int matrix[9][9]; //用此二維陣列存放魔方陣
 
-void solve(int n){
+//印出n階魔方陣
+void solve(int n){ //n代表魔方陣的階數
     //將陣列初始化為0
     for(int i = 0 ; i < 9 ; i ++){
         for(int j = 0 ; j < 9 ; j ++){
