@@ -84,7 +84,7 @@ TSet TSet::operator+(TSet st){
     return TSet(s3);
 }
 
-TSet TSet::operator*(TSet st){
+TSet TSet::operator-(TSet st){
     string s1 = tostr(this->ch, this->size);
     string s2 = tostr(st.ch, size);
     string s3 = "";
