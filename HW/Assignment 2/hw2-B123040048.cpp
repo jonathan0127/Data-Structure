@@ -84,6 +84,26 @@ TSet TSet::operator+(TSet st){
     return TSet(s3);
 }
 
+TSet TSet::operator*(TSet st){
+    string s1 = tostr(this->ch, this->size);
+    string s2 = tostr(st.ch, size);
+    string s3 = "";
+    for(int i = 0 ; i < this->size ; i ++){
+        bool flag = 1;
+        for(int j = 0 ; j < st.size ; j ++){
+            if(s1[i] == s2[j]){
+                flag = 0;
+                break;
+            }
+        }
+        if(flag){
+            s3 += s1[i];
+        }
+    }
+    
+    return TSet(s3);
+}
+
 void TSet::output(){
     cout << '{';
     for(int i = 0 ; i < size ; i ++){
