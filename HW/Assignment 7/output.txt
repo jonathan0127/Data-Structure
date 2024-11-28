@@ -1,0 +1,74 @@
+1. sort the input.txt
+2. sort the random data
+
+data size : 100
+Selection sort......Finish!
+	Time : 0.0000461s
+Heap sort......Finish!
+	Time : 0.0000301s
+Quick sort......Finish!
+	Time : 0.0000056s
+C library sort......Finish!
+	Time : 0.0000031s
+Cpp library sort......Finish!
+	Time : 0.0000133s
+
+data size : 500
+Selection sort......Finish!
+	Time : 0.0008850s
+Heap sort......Finish!
+	Time : 0.0001544s
+Quick sort......Finish!
+	Time : 0.0000198s
+C library sort......Finish!
+	Time : 0.0000052s
+Cpp library sort......Finish!
+	Time : 0.0000626s
+
+data size : 1000
+Selection sort......Finish!
+	Time : 0.0023437s
+Heap sort......Finish!
+	Time : 0.0002485s
+Quick sort......Finish!
+	Time : 0.0000305s
+C library sort......Finish!
+	Time : 0.0000072s
+Cpp library sort......Finish!
+	Time : 0.0001014s
+
+data size : 5000
+Selection sort......Finish!
+	Time : 0.0517995s
+Heap sort......Finish!
+	Time : 0.0014967s
+Quick sort......Finish!
+	Time : 0.0001837s
+C library sort......Finish!
+	Time : 0.0000337s
+Cpp library sort......Finish!
+	Time : 0.0006938s
+
+data size : 10000
+Selection sort......Finish!
+	Time : 0.2059030s
+Heap sort......Finish!
+	Time : 0.0032223s
+Quick sort......Finish!
+	Time : 0.0003886s
+C library sort......Finish!
+	Time : 0.0000673s
+Cpp library sort......Finish!
+	Time : 0.0014864s
+
+data size : 50000
+Selection sort......Finish!
+	Time : 5.1171842s
+Heap sort......Finish!
+	Time : 0.0189812s
+Quick sort......Finish!
+	Time : 0.0022971s
+C library sort......Finish!
+	Time : 0.0003452s
+Cpp library sort......Finish!
+	Time : 0.0082528s
