@@ -8,6 +8,9 @@
 #include<fstream>
 #include<vector>
 #include <random>
+#include <stdlib.h>
+#include<ctime>
+#include<iomanip>
 
 using namespace std;
 
@@ -84,10 +87,104 @@ void heap(vector<int> &vt) {
 
 
 void Quick(vector<int> &vt, int l, int r) {
+	if(l >= r){
+		return;
+	}
 
+	int i = l;
+	int j = r;
+	int pivot = vt[(l + r) / 2];
+
+	while(i <= j){
+		while(vt[i] < pivot){
+			i ++;
+		}
+		while (vt[j] > pivot){
+			j --;
+		}
+		if(i <= j) {
+			swap(vt[i], vt[j]);
+			i ++;
+			j --;
+		}
+	}
+
+	Quick(vt, l, j);
+	Quick(vt, i, r);
 }
 
+void random(int n, vector<int> &vt) {
+	vt.clear();
+	srand(time(NULL));
+	for (int i = 0 ; i < n ; i ++) {
+		vt.push_back(rand() % 5000000);
+	}
+}
 
+void randomsort(vector<int> &vt, int size) {
+	vector<int> r_input[10];
+	for(int i = 0 ; i < 10 ; i ++){
+		random(size, r_input[i]);
+	}
+	double start, end, time;
+	time = 0;
+	cout << "\ndata size : " << size << '\n';
+	cout << "Selection sort......";
+	for(int i = 0 ; i < 10 ; i ++){
+		start = clock();
+		selection(r_input[i]);
+		end = clock();
+		time += (end - start) / CLOCKS_PER_SEC;
+	}
+	cout << "Finish!\n";
+	cout << "\tTime : " << fixed << setprecision(7) << time / 10 << "s\n";
+
+	time = 0;
+	cout << "Heap sort......";
+	for(int i = 0 ; i < 10 ; i ++){
+		start = clock();
+		heap(r_input[i]);
+		end = clock();
+		time += (end - start) / CLOCKS_PER_SEC;
+	}
+	cout << "Finish!\n";
+	cout << "\tTime : " << fixed << setprecision(7) << time / 10 << "s\n";
+
+	time = 0;
+	cout << "Quick sort......";
+	for(int i = 0 ; i < 10 ; i ++){
+		start = clock();
+		Quick(r_input[i], 0, r_input[i].size() - 1);
+		end = clock();
+		time += (end - start) / CLOCKS_PER_SEC;
+	}
+	cout << "Finish!\n";
+	cout << "\tTime : " << fixed << setprecision(7) << time / 10 << "s\n";
+
+	time = 0;
+	cout << "C library sort......";
+	for(int i = 0 ; i < 10 ; i ++){
+		start = clock();
+		qsort(&r_input[i][0], r_input[i].size(), sizeof(int), [](const void *a, const void *b) -> int {
+			return *(int *)a - *(int *)b;
+		});
+		end = clock();
+		time += (end - start) / CLOCKS_PER_SEC;
+	}
+	cout << "Finish!\n";
+	cout << "\tTime : " << fixed << setprecision(7) << time / 10 << "s\n";
+
+	time = 0;
+	cout << "Cpp library sort......";
+	for(int i = 0 ; i < 10 ; i ++){
+		start = clock();
+		sort(r_input[i].begin(), r_input[i].end());
+		end = clock();
+		time += (end - start) / CLOCKS_PER_SEC;
+	}
+	cout << "Finish!\n";
+	cout << "\tTime : " << fixed << setprecision(7) << time / 10 << "s\n";
+}
 
 signed main() {
 	int op;
@@ -97,6 +194,8 @@ signed main() {
 	outa.open("outputA.txt");
 	outb.open("outputB.txt");
 	outc.open("outputC.txt");
+	outd.open("outputD.txt");
+	oute.open("outputE.txt");
 
 	cout << "1. sort the input.txt\n2. sort the random data\n";
 	cin >> op;
@@ -120,8 +219,31 @@ signed main() {
 		output(outc, f_input, "Quick Sort");
 		cout << "Finish!\n";
 
+		read(f_input);
+		cout << "C library sort......";
+		qsort(&f_input[0], f_input.size(), sizeof(int), [](const void *a, const void *b) -> int {
+			return *(int *)a - *(int *)b;
+		});
+		output(outd, f_input, "C library Sort");
+		cout << "Finish!\n";
+
+		read(f_input);
+		cout << "Cpp library sort......";
+		sort(f_input.begin(), f_input.end());
+		output(oute, f_input, "Cpp library Sort");
+		cout << "Finish!\n";
 	}
 	else if (op == 2) {
+		randomsort(f_input, 100);
+		randomsort(f_input, 500);
+		randomsort(f_input, 1000);
+		randomsort(f_input, 5000);
+		randomsort(f_input, 10000);
+		randomsort(f_input, 50000);
+
+
+		
+
 
 	}
 
