@@ -171,7 +171,7 @@ void randomsort(int size) { //size為資料的數量
 		time += (end - start) / CLOCKS_PER_SEC;
 	}
 	cout << "Finish!\n";
-	cout << "\tTime : " << fixed << setprecision(7) << time / 10 << "s\n";
+	cout << "\tTime : " << fixed << setprecision(9) << time / 10 << "s\n";
 
 	time = 0;
 	cout << "Quick sort......"; //快速排序
@@ -267,6 +267,8 @@ signed main() {
 		randomsort(5000);
 		randomsort(10000);
 		randomsort(50000);
+		randomsort(100000);
+		randomsort(500000);
 
 
 		
