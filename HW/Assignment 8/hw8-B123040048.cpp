@@ -48,7 +48,15 @@ HuffmanNode* buildTree(const unordered_map<unsigned char, unsigned>& freqMap) {
         minHeap.pop();
         HuffmanNode* right = minHeap.top();
         minHeap.pop();
-        HuffmanNode* parent = new HuffmanNode('\0', left->frequency + right->frequency);
+        if(left->data > right->data){
+            swap(left, right);
+        }
+        else if(left->data == right->data){
+            if(left->frequency > right->frequency){
+                swap(left, right);
+            }
+        }
+        HuffmanNode* parent = new HuffmanNode(left->data, left->frequency + right->frequency);
         parent->left = left;
         parent->right = right;
         minHeap.push(parent);
@@ -95,10 +103,11 @@ void compress(const string input, const string output){
     in.clear();
     in.seekg(0);
     HuffmanNode* root = buildTree(freqMap);
-    DFS(root, "");
+    DFS(root, ""); //生成encode和decode
     ofstream out(output, ios::out | ios::binary);
     size_t mapSize = freqMap.size();
-    out.write(reinterpret_cast<const char*>(&mapSize), sizeof(size_t));
+    out.write((char*)&mapSize, sizeof(size_t)); //寫入map大小
+    //寫入map
     for (const auto& pair : freqMap) {
         out.put(pair.first);
         out.write(reinterpret_cast<const char*>(&pair.second), sizeof(unsigned));
@@ -115,6 +124,11 @@ void compress(const string input, const string output){
     cout << "Original Size: " << rawFile.size() << " bytes\n";
     cout << "Compressed Size: " << compressedSize << " bytes\n";
     cout << "Compression Ratio: " << fixed << setprecision(3) << (double)rawFile.size() / compressedSize << "\n";
+    //輸出編碼表
+    cout << "Huffman Encoding Table:\n";
+    for(const auto& pair : encode){
+        cout << "'" << pair.first << "': " << pair.second << "\n";
+    }
     delete root;
     in.close();
     out.close();
@@ -137,6 +151,7 @@ void decompress(const string input, const string output){
     }
     HuffmanNode* root = buildTree(freqMap);
     DFS(root, "");
+    
     size_t paddingBits;
     in.read(reinterpret_cast<char*>(&paddingBits), sizeof(size_t));
     string bitString;
@@ -164,7 +179,10 @@ void decompress(const string input, const string output){
     out.close();
     delete root;
     in.close();
+    
 }
+
+
 
 signed main(int argc, char *argv[]){
     if(argc != 4){
