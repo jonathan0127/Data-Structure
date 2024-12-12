@@ -75,12 +75,12 @@ void DFS(HuffmanNode* root, string str) {
 }
 
 void writeBitStream(ofstream& out, const string& bitString) {
-    unsigned char buffer = 0;
-    int count = 0;
+    unsigned char buffer = 0; //buffer 為一個char的大小（8 bits）
+    int count = 0; //計算buffer中已經有幾個bits
     for (char bit : bitString) {
-        buffer = (buffer << 1) | (bit - '0');
+        buffer = (buffer << 1) | (bit - '0'); //將bit加入buffer
         count++;
-        if (count == 8) {
+        if (count == 8) { //當count = 8則把char put進去
             out.put(buffer);
             buffer = 0;
             count = 0;
@@ -93,33 +93,33 @@ void writeBitStream(ofstream& out, const string& bitString) {
 }
 
 void compress(const string input, const string output){
-    ifstream in(input, ios::in | ios::binary);
-    unsigned char ch = in.get();
-    while (in.good()) {
+    ifstream in(input, ios::in | ios::binary); //二進位讀取
+    unsigned char ch = in.get(); //讀取一個字元
+    while (in) {
         rawFile.emplace_back(ch);
         freqMap[ch]++;
         ch = in.get();
     }
-    in.clear();
-    in.seekg(0);
-    HuffmanNode* root = buildTree(freqMap);
+    in.clear();  //清除eof狀態
+    in.seekg(0); //回到檔案開頭
+    HuffmanNode* root = buildTree(freqMap); //建立Huffman Tree
     DFS(root, ""); //生成encode和decode
-    ofstream out(output, ios::out | ios::binary);
-    size_t mapSize = freqMap.size();
+    ofstream out(output, ios::out | ios::binary); //二進位寫入
+    size_t mapSize = freqMap.size(); //map大小
     out.write((char*)&mapSize, sizeof(size_t)); //寫入map大小
     //寫入map
     for (const auto& pair : freqMap) {
-        out.put(pair.first);
-        out.write(reinterpret_cast<const char*>(&pair.second), sizeof(unsigned));
+        out.put(pair.first); //寫入字元
+        out.write((char*)&pair.second, sizeof(unsigned)); //寫入頻率
     }
-    string bitString;
+    string bitString; //壓縮後的bit字串
     for (unsigned char c : rawFile) {
-        bitString += encode[c];
+        bitString += encode[c]; //將原始檔案轉換成Huffman編碼
     }
-    size_t paddingBits = (8 - (bitString.size() % 8)) % 8;
+    size_t paddingBits = (8 - (bitString.size() % 8)) % 8; //計算padding bits
     bitString.append(paddingBits, '0');
-    out.write(reinterpret_cast<const char*>(&paddingBits), sizeof(size_t));
-    writeBitStream(out, bitString);
+    out.write((char*)&paddingBits, sizeof(size_t));
+    writeBitStream(out, bitString); //寫入壓縮後的bit字串
     size_t compressedSize = out.tellp();
     cout << "Original Size: " << rawFile.size() << " bytes\n";
     cout << "Compressed Size: " << compressedSize << " bytes\n";
